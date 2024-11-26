@@ -1,13 +1,12 @@
 const userModel = require('./../models/userModel');
-require('dotenv').config();
-const key = process.env.key;
-//const cryptoJS = require("crypto-js");
-require('crypto-js')
+const key = process.env.KEY;
+const hash = process.env.HASH;
+const CryptoJS = require('crypto-js');
+//Si es posible, utiliar hash para la contrase;a;
 require('mongoose');
 class AdminController {
   consultarClientePorId(req, res) {
-
-    const filter = {rfc: cryptoJS.AES.decrypt(req.body.rfc, key)};
+    const filter = {rfc : CryptoJS.AES.encrypt(req.body.rfc,key)}
     if(!filter){
         res.status(400).send({message: 'No se ingreso ningun dato'});
     }
@@ -20,7 +19,7 @@ class AdminController {
     })
   }
   eliminarCliente(req, res) {
-    const filter = {rfc: cryptoJS.AES.decrypt(req.body.rfc, key)};
+    const filter = {rfc : CryptoJS.AES.encrypt(req.body.rfc,key)}
     const update = {status:"Inactivo"};
     userModel.findOneAndUpdate(filter, update,{new:true}).then((updateUser) => {
       res.send(updateUser);
@@ -29,14 +28,12 @@ class AdminController {
     })
   }
   agregarCliente(req, res) {
-    const name = CryptoJS.AES.decrypt(req.body.name,key);
-    const rfc = CryptoJS.AES.decrypt(req.body.rfc,key);
-    const email = CryptoJS.AES.decrypt(req.body.email,key);
-    const password = CryptoJS.AES.decrypt(req.body.password,key);
-    const rol = CryptoJS.AES.decrypt(req.body.rol,key);
-    const status = CryptoJS.AES.decrypt(req.body.status,key);
-    //const { name, rfc, email, password,rol, status } = req.body;
-    //Descodificar los datos
+    const name = req.body.name;
+    const rfc = CryptoJS.AES.encrypt(req.body.rfc,key);
+    const email = req.body.email;
+    const password = CryptoJS.AES.encrypt(req.body.password,hash);
+    const rol = req.body.rol;
+    const status =req.body.status;
     userModel.create({name, rfc,email, password,rol,status}).then((response)=>{
       res.send(response);
     }).catch((err)=>{
@@ -46,14 +43,12 @@ class AdminController {
 
   ///Modificar actualizarCliente y consultar cliente. Ya con eso tenemos el desarrollo del backend completo
   actualizarCliente(req, res) {
-    const update = {password:CryptoJS.AES.decrypt(req.body.password,key)};
-    const filter = {rfc: CryptoJS.AES.decrypt(req.body.rfc,key)};
-    //const { password,rfc} = req.body;
+    const password = CryptoJS.AES.encrypt(req.body.password,hash);
+    const update = {password:password};
+    const filter = {rfc : CryptoJS.AES.encrypt(req.body.rfc,key)};
     if (!filter || !update) {
       return res.status(400).send({ message: 'RFC y contraseña son requeridos' });
     }
-    //const filter = {rfc: rfc};
-    //const update = {password:password}
     userModel.findOneAndUpdate(filter,update,{new:true}).then((updatedUser)=>{
       res.send(updatedUser);
     }).catch((err)=>{

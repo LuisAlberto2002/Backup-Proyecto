@@ -2,10 +2,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-
+require('dotenv').config();
 const cors=require('cors');
+const cookieParser = require('cookie-parser');
 
 app.use(cors());
+app.use(cookieParser());
 const port=process.env.PORT || 3000;
 const rutaLogin=require('./scr/rutas/rutasLogin');
 const rutas=require('./scr/rutas/rutas');

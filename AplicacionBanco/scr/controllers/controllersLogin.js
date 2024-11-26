@@ -1,29 +1,25 @@
 require('mongoose');
 require('dotenv').config();
-require('crypto-js');
+const CryptoJS = require('crypto-js');
 const jws=require('jsonwebtoken');
 const userModel=require('./../models/userModel');
-const key = process.env.key;
-//const tokenModel=require('./../models/tokenModel');
+const hash = process.env.HASH;
 const secret=process.env.secret;
 class userControllers{
     login(req,res){
-        const email = CryptoJS.AES.decrypt(req.body.email,key);
-        const password = CryptoJS.AES.decrypt(req.body.password,key);
-
-        //const {email,password}=req.body;
-        userModel.findOne({email, password}).then((response)=>{
-            
+        const email = req.body.email;
+        const password = CryptoJS.AES.encrypt(req.body.password,hash);
+        userModel.findOne({email, password}).then((response)=>{  
             if(response){
                 const token=jws.sign({
                     _id:response._id,
                     email:response.email,
-                    role: response.role
+                    rol: response.rol
                 },secret);
 
                 res.send({
                     token,
-                    role: response.role,
+                    rol: response.rle,
                 });
             }else{
                 res.sendStatus(400);
@@ -33,18 +29,5 @@ class userControllers{
             console.log('Error: ',err);
         });
     }
-
-    /*tokenCreate(req,res){
-        const {email}=req.body;
-        const token=jws.sign({
-            _id:email
-        },secret);
-        
-        tokenModel.create({email:email,token:token}).then((response)=>{
-            res.send(response);
-        }).catch((err)=>{
-            res.send('Error: ', err);
-        });
-    }  */
 }
 module.exports=new userControllers();

@@ -1,11 +1,11 @@
 const router=require('express').Router();
 const express=require('express');
-//const middleware=require('./../Middleware/middleware');
+const middleware=require('./../Middleware/middleware');
 const clientControllers=require('./../controllers/ClientController');
 const adminControllers=require('./../controllers/AdminController');
 const serviceControllers=require('./../controllers/ServiceController');
 router.use(express.json());
-//router.use(middleware);
+router.use(middleware);
 
 
 

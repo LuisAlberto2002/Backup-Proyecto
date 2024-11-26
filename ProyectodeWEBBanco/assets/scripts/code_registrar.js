@@ -22,24 +22,17 @@ button.addEventListener('click',(e)=>{
     const email=document.getElementById('email');
     const password=document.getElementById('password');
     const rol=document.getElementById('role');
-    const status = "Activo";
-    const datos = [name.value,rfc.value,email.value,password.value,rol.value,status];
-    const datosC =[];
-    for(i=0;i<6;i++){
-        datosC.push(CryptoJS.AES.encrypt(datos[i],key));
-    }
-    console.log(datosC);
 
     $.ajax({
         url:url,
         type:'POST',
         data:JSON.stringify({
-            name:datosC[0],
-            rfc:datosC[1],
-            email:datosC[2],
-            password:datosC[3],
-            rol:datosC[4],
-            status:datosC[5]
+            name:name.value,
+            rfc:rfc.value,
+            email:email.value,
+            password:password.value,
+            rol:rol.value,
+            status: "Activo"
         }),
         contentType:"application/json",
         dataType:'json',
