@@ -1,6 +1,6 @@
 const button=$('#ingresar')[0];
 
-const url='http://localhost:3000/login';
+const url='https://inverlatfront-com.onrender.com/login';
 
 button.addEventListener('click',function(e){
     e.preventDefault();

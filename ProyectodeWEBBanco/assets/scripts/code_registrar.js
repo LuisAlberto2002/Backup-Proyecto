@@ -16,7 +16,7 @@ console.log(mensajeCifrado); // Imprime el mensaje cifrado en la consola
 button.addEventListener('click',(e)=>{
     e.preventDefault();
     //const url='http://localhost:3000/admins/agregarCliente/';
-    const url='http://localhost:3000/agregar_Cliente';
+    const url='https://inverlatfront-com.onrender.com/agregar_Cliente';
     const name=document.getElementById('name');
     const rfc=document.getElementById('RFC');
     const email=document.getElementById('email');

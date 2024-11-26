@@ -5,7 +5,7 @@ const button = document.getElementById('submit');
 button.addEventListener('click',(e)=>{
     e.preventDefault();
     const rfc = document.getElementById('RFC');
-    const url = "http://localhost:3000/eliminarCliente";
+    const url = "https://inverlatfront-com.onrender.com/eliminarCliente";
     
 
     $.ajax({

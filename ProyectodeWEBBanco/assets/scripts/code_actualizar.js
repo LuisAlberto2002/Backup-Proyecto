@@ -18,7 +18,7 @@ button.addEventListener('click',(e)=>{
     console.log(datosC);
     $.ajax({
         type: "PUT",
-        url: "http://localhost:3000/actualizar_cliente",
+        url: "https://inverlatfront-com.onrender.com/actualizar_cliente",
         data: JSON.stringify({
             password: datosC[1],
             rfc:datosC[0]
