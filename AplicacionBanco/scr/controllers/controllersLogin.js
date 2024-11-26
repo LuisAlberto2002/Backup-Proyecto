@@ -26,7 +26,7 @@ class userControllers{
             }
 
         }).catch((err)=>{
-            console.log('Error: ',err);
+            res.status(400).send({message: 'No se pudo verificar el usuario'});
         });
     }
 }
