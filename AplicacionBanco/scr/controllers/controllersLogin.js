@@ -7,8 +7,8 @@ const hash = process.env.HASH;
 const secret=process.env.secret;
 class userControllers{
     login(req,res){
-        const email = req.body.email;
-        const password = CryptoJS.AES.encrypt(req.body.password,hash);
+        const {email,password} = req.body.email;
+       // const password = CryptoJS.AES.encrypt(req.body.password,hash);
         userModel.findOne({email, password}).then((response)=>{  
             if(response){
                 const token=jws.sign({
